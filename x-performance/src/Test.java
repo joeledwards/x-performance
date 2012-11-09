@@ -1,5 +1,5 @@
 
 public interface Test
 {
-	public void test(String testName, long iterations);
+	public void test(long iterations, long updateFrequency);
 }

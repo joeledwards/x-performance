@@ -8,24 +8,33 @@ public abstract class PerformanceTest
 implements Test
 {
 	public static long UPDATES_PER_ITERATION = 4 * 1024 * 1024;
-	public static long ITERATIONS_PER_SPACE = 5;
+	public static long UPDATES_PER_SPACE = 5;
 	public static long SPACES_PER_NEWLINE = 5;
 	
 	private Calendar start;
 	private Calendar end;
 	
+	private String testName;
+	
 	public PerformanceTest()
 	{
+		testName = this.getClass().getName();
 	}
 	
-	public final void test(String testName, long iterations)
+	public PerformanceTest(String testName)
+	{
+		this.testName = testName;
+	}
+	
+	public void test(long iterations, long updateFrequency)
 	{	
 		start = GregorianCalendar.getInstance();
+		System.out.format("Test Name \"%s\"\n", testName);
 		System.out.format("Test began @ %s\n", PerformanceTest.prettyTimestamp(start));
 
 		NumberFormat prettyNum = DecimalFormat.getIntegerInstance();
-		long nextInterval = UPDATES_PER_ITERATION;
-		long nextSpace = ITERATIONS_PER_SPACE;
+		long nextInterval = updateFrequency;
+		long nextSpace = UPDATES_PER_SPACE;
 		long nextNewline = SPACES_PER_NEWLINE;
 		
 		for (long i=0; i < iterations; i++) {
@@ -33,17 +42,17 @@ implements Test
 			nextInterval--;
 			if (nextInterval < 1) {
 				System.err.format(".");
-				nextInterval = UPDATES_PER_ITERATION;
+				nextInterval = updateFrequency;
 				nextSpace--;
 				if (nextSpace < 1) {
 					System.err.format(" ");
-					nextSpace = ITERATIONS_PER_SPACE;
+					nextSpace = UPDATES_PER_SPACE;
 					nextNewline--;
 					if (nextNewline < 1) {
 						String timeStr = PerformanceTest.prettyTime(GregorianCalendar.getInstance());
 						String countStr = prettyNum.format(i);
 						String totalStr = prettyNum.format(iterations);
-						System.err.format("[%s]  %s / %s \n", timeStr, countStr, totalStr);
+						System.out.format("[%s]  %s / %s \n", timeStr, countStr, totalStr);
 						nextNewline = SPACES_PER_NEWLINE;
 					}
 				}
