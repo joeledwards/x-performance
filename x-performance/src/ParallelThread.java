@@ -19,9 +19,7 @@ implements Runnable
 	{
 		try {
 			boolean running = true;
-			long count = 0;
 			while (running) {
-				count++;
 				//System.err.format("[%s:%d]> Waiting on queue input\n", getClass().getName(), count);
 				QueueItem<T> item = inThread.take();
 				//System.err.format("[%s:%d]> Returning item to queue\n", getClass().getName(), count);
