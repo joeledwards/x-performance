@@ -80,34 +80,22 @@ public class RoundRobinTokenizer extends Thread
 		}
 	}
 
-	public void log(String message) {
-		System.out.println(getName() + ": " + message);
-	}
-
 	public void run()
 	{
-		String words = "INIT";
-		while (words != null) {
+		boolean more = true;
+		while (more) {
 			try {
-				words = queue.take();
-				String first = "";
-				String rest = "";
+				String words = queue.take();
 
 				String[] parts = words.split(regex, 2);
-				if (parts.length > 0)
-					first = parts[0];
-				if (parts.length > 1)
-					rest = parts[1];
+				String first = (parts.length > 0) ? parts[0] : "";
+				String rest = (parts.length > 1) ? parts[1] : "";
 
 				nextTokenizer.tokenize(rest);
+				stream.write(first.getBytes());
 
-				if (first.length() > 0)
-					stream.write(first.getBytes());
-
-				if (rest.length() > 0)
-					log(rest);
-				else
-					break;
+				if (rest.length() == 0)
+					more = false;
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				throw new RuntimeException(e.getMessage(), e);
