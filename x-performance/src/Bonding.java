@@ -6,7 +6,10 @@ public class Bonding {
 		parent.aim(new Ball());
 	}
 
-	public static class Ball extends Throwable{}
+	public static class Ball extends Throwable{
+		private static final long serialVersionUID = 1L;
+	}
+
 	public static class Player {
 		Player target;
 		Integer throwCount = 0;

@@ -1,5 +1,5 @@
 
-public class Parent<T extends Parent> {
+public class Parent<T extends Parent<?>> {
 	private static final String KEY_PREFIX = "PARENT-";
 	protected static String keyPrefix = KEY_PREFIX;
 

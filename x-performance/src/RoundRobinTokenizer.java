@@ -90,17 +90,23 @@ public class RoundRobinTokenizer extends Thread
 		while (words != null) {
 			try {
 				words = queue.take();
+				String first = "";
+				String rest = "";
+
 				String[] parts = words.split(regex, 2);
-				if (parts.length > 0) {
-					log(parts[0]);
-					stream.write(parts[0].getBytes());
-				}
-				if (parts.length > 1) {
-					nextTokenizer.tokenize(parts[1]);
-				}
+				if (parts.length > 0)
+					first = parts[0];
+				if (parts.length > 1)
+					rest = parts[1];
+
+				nextTokenizer.tokenize(rest);
+
+				if (first.length() > 0)
+					stream.write(first.getBytes());
+
+				if (rest.length() > 0)
+					log(rest);
 				else
-					nextTokenizer.tokenize("");
-				if (words.length() == 0)
 					break;
 			} catch (InterruptedException e) {
 				e.printStackTrace();
