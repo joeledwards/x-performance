@@ -92,8 +92,8 @@ public class RoundRobinTokenizer extends Thread
 				String rest = (parts.length > 1) ? parts[1] : "";
 
 				nextTokenizer.tokenize(rest);
-				stream.write(first.getBytes());
 
+				stream.write(first.getBytes());
 				if (rest.length() == 0)
 					more = false;
 			} catch (InterruptedException e) {
