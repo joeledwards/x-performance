@@ -42,7 +42,7 @@ public class NearestPoints {
 		return closestPoints;
 	}
 
-	private class PointDistance implements Comparable {
+	private static class PointDistance implements Comparable<PointDistance> {
 		Point point;
 		double distance;
 
@@ -51,6 +51,14 @@ public class NearestPoints {
 			this.distance = distance;
 		}
 
-		compare
+		@Override
+		public int compareTo(PointDistance other) {
+			if (distance < other.distance)
+				return -1;
+			if (distance > other.distance)
+				return 1;
+			return 0;
+		}
+
 	}
 }
