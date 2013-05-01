@@ -5,9 +5,9 @@ import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.TreeSet;
 
-public class NearestPoints
+public class NearestPointsValidator
 {
-	private static final int POINT_COUNT = 2000000;
+	private static final int POINT_COUNT = 1000;
 	private static final int M_CLOSEST = 25;
 	private static final Random rand = new Random(System.currentTimeMillis());
 
