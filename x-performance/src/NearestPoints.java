@@ -24,20 +24,16 @@ public class NearestPoints
 		List<Point> closestPoints = findMClosest(origin, points, M_CLOSEST);
 		long end = System.currentTimeMillis();
 
-		TreeSet<PointDistance> distanceTree = new TreeSet<PointDistance>();
-		for (Point point : points)
-			distanceTree.add(new PointDistance(point, distance(origin, point)));
-
 		System.out.println("Origin : " + origin.toString());
 		System.out.println("Closest " + M_CLOSEST + " Points");
 
 		System.out.println();
-		System.out.println("referenceMethod(), took " + (end - twixt) + " ms:");
+		System.out.println("referenceMethod(), took " + (twixt - start) + " ms:");
 		for (Point point : realClosestPoints)
 			System.out.println("  " + point + " distance=" + distance(origin, point));
 
 		System.out.println();
-		System.out.println("findMClosest(), took " + (twixt - start) + " ms:");
+		System.out.println("findMClosest(), took " + (end - twixt) + " ms:");
 		for (Point point : closestPoints)
 			System.out.println("  " + point + " distance=" + distance(origin, point));
 
@@ -49,14 +45,16 @@ public class NearestPoints
 
 	private static Point newRandomPoint()
 	{
-		Point newPoint = new Point();
-		newPoint.x = (int) (rand.nextDouble() * 1000.0 - 500.0);
-		newPoint.y = (int) (rand.nextDouble() * 1000.0 - 500.0);
-		return newPoint;
+		int x = (int) (rand.nextDouble() * 1000.0 - 500.0);
+		int y = (int) (rand.nextDouble() * 1000.0 - 500.0);
+		return new Point(x, y);
 	}
 
 	private static List<Point> findMClosest(Point origin, List<Point> points, int M)
 	{
+		// TODO: Custom Implementation
+
+
 		PriorityQueue<PointDistance> pointQueue = new PriorityQueue<PointDistance>();
 		for (Point point : points)
 		{
@@ -70,6 +68,9 @@ public class NearestPoints
 		}
 
 		return closestPoints;
+
+
+		// TODO: End Custom Implementation
 	}
 
 
