@@ -9,9 +9,19 @@ public class RoundRobinTokenizer extends Thread
 {
 	public static void main(String[] args) throws Exception
 	{
-		int streamCount = 5;
+		int streamCount = 26;
+		int loopCount = 32;
 		String regex = "\\s";
-		String words = "Hi there Bob. How are you doing today. I believe you have my shoes!";
+		String words = "";
+		for (int i = 0; i < loopCount; i++) {
+			for (int j = 0; j < streamCount; j++) {
+				int letter = 'A' + j;
+				words += (char) letter + " ";
+			}
+		}
+		words = words.trim();
+
+		System.out.println("Words: " + words);
 		ArrayList<ByteArrayOutputStream> streams = new ArrayList<ByteArrayOutputStream>();
 		for (int i = 0; i < streamCount; i++)
 			streams.add(new ByteArrayOutputStream());
