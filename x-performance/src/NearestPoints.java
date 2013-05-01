@@ -20,9 +20,19 @@ public class NearestPoints
 		Point origin = newRandomPoint();
 		long start = System.currentTimeMillis();
 		List<Point> realClosestPoints = referenceMethod(origin, points, M_CLOSEST);
+		List<Double> realClosestDistances = new ArrayList<Double>();
+		for (Point point : realClosestPoints) {
+			realClosestDistances.add(distance(origin, point));
+		}
+
 		long twixt = System.currentTimeMillis();
+
 		List<Point> closestPoints = findMClosest(origin, points, M_CLOSEST);
 		long end = System.currentTimeMillis();
+		List<Double> closestDistances = new ArrayList<Double>();
+		for (Point point : realClosestPoints) {
+			closestDistances.add(distance(origin, point));
+		}
 
 		System.out.println("Origin : " + origin.toString());
 		System.out.println("Closest " + M_CLOSEST + " Points");
@@ -39,7 +49,8 @@ public class NearestPoints
 
 		System.out.println();
 		System.out.println("Correct count? " + (closestPoints.size() == M_CLOSEST));
-		System.out.println("Matches reference? " + realClosestPoints.equals(closestPoints));
+		System.out.println("Matches reference? " + realClosestDistances.equals(closestDistances));
+		System.out.println("Matches reference point order? " + realClosestPoints.equals(closestPoints));
 
 	}
 
