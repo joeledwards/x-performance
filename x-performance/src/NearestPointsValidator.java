@@ -7,7 +7,7 @@ import java.util.TreeSet;
 
 public class NearestPointsValidator
 {
-	private static final int POINT_COUNT = 1000;
+	private static final int POINT_COUNT = 10000;
 	private static final int M_CLOSEST = 25;
 	private static final Random rand = new Random(System.currentTimeMillis());
 
@@ -16,16 +16,23 @@ public class NearestPointsValidator
 		List<Point> points = new ArrayList<Point>();
 		for (int i = 0; i < POINT_COUNT; i++)
 			points.add(newRandomPoint());
-
 		Point origin = newRandomPoint();
+
+		System.out.println("Origin : " + origin.toString());
+		System.out.println("Closest " + M_CLOSEST + " Points");
+
 		long start = System.currentTimeMillis();
 		List<Point> realClosestPoints = referenceMethod(origin, points, M_CLOSEST);
 		List<Double> realClosestDistances = new ArrayList<Double>();
 		for (Point point : realClosestPoints) {
 			realClosestDistances.add(distance(origin, point));
 		}
-
 		long twixt = System.currentTimeMillis();
+
+		System.out.println();
+		System.out.println("referenceMethod(), took " + (twixt - start) + " ms:");
+		for (Point point : realClosestPoints)
+			System.out.println("  " + point + " distance=" + distance(origin, point));
 
 		List<Point> closestPoints = findMClosest(origin, points, M_CLOSEST);
 		long end = System.currentTimeMillis();
@@ -33,14 +40,6 @@ public class NearestPointsValidator
 		for (Point point : realClosestPoints) {
 			closestDistances.add(distance(origin, point));
 		}
-
-		System.out.println("Origin : " + origin.toString());
-		System.out.println("Closest " + M_CLOSEST + " Points");
-
-		System.out.println();
-		System.out.println("referenceMethod(), took " + (twixt - start) + " ms:");
-		for (Point point : realClosestPoints)
-			System.out.println("  " + point + " distance=" + distance(origin, point));
 
 		System.out.println();
 		System.out.println("findMClosest(), took " + (end - twixt) + " ms:");
