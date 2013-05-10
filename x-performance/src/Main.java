@@ -1,3 +1,9 @@
+import java.awt.BorderLayout;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 
 public class Main
 {
@@ -17,6 +23,19 @@ public class Main
 		//(new DoubleCalculation()).test(200*1024*1024, 1024*1024);
 		//(new IntegerCalculation()).test(200*1024*1024, 1024*1024);
 
+		JFrame frame = new JFrame();
+		JPanel panel = new JPanel();
+		JButton button = new JButton("Cool");
 		
+		panel.setLayout(new BorderLayout());
+		panel.add(button, BorderLayout.CENTER);
+//		panel.add(button, new GridBagConstraints(gridx, gridy, gridwidth, gridheight, weightx, weighty, anchor, fill, insets, ipadx, ipady));
+		
+		frame.add(panel);
+		frame.doLayout();
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		frame.setVisible(true);
 	}
 }
