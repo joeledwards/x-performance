@@ -17,56 +17,69 @@ import java.util.Collection;
  * the string, then pass the string on to the remainder of the string to
  * the next {@link RoundRobinTokenizer} until the string is empty.
  */
-public class TokenizerTest {
+public class TokenizerTest
+{
 	private static final int THREAD_COUNT = 26;
 	private static final int ITERATION_COUNT = 32;
 	private static final String REGEX = "\\s+";
-
+	
 	public static void main(String[] args) throws Exception
 	{
 		String wordList = "";
+		
 		for (int i = 0; i < ITERATION_COUNT; i++)
 			for (int j = 0; j < THREAD_COUNT; j++)
 				wordList += (char) ('A' + j) + " ";
+		
 		wordList = wordList.trim();
 		System.out.println("Original word list: " + wordList);
-
+		
 		ArrayList<StringBuilder> stringBuilders = new ArrayList<StringBuilder>();
+		
 		for (int i = 0; i < THREAD_COUNT; i++)
 			stringBuilders.add(new StringBuilder());
-
+		
 		runTokenizers(wordList, REGEX, stringBuilders);
-	
+		
 		System.out.println("Stream contents:");
+		
 		for (StringBuilder stringBuilder : stringBuilders)
 			System.out.println("  " + stringBuilder.toString());
 	}
-
+	
 	public static void runTokenizers(String words, String regex, Collection<StringBuilder> stringBuilders)
 			throws InterruptedException
 	{
 		RoundRobinTokenizer lastTokenizer = null;
 		RoundRobinTokenizer firstTokenizer = null;
+		
 		for (StringBuilder stringBuilder : stringBuilders)
 		{
 			RoundRobinTokenizer tokenizer = new RoundRobinTokenizer(stringBuilder, regex);
+			
 			if (lastTokenizer != null)
 				lastTokenizer.setNextTokenizer(tokenizer);
+			
 			lastTokenizer = tokenizer;
+			
 			if (firstTokenizer == null)
 				firstTokenizer = tokenizer;
+			
 			tokenizer.start();
 		}
+		
 		lastTokenizer.setNextTokenizer(firstTokenizer);
-	
+		
 		firstTokenizer.tokenize(words);
-	
+		
 		firstTokenizer.join();
 		RoundRobinTokenizer nextTokenizer = firstTokenizer.getNextTokenizer();
-		while (nextTokenizer != firstTokenizer) {
+		
+		while (nextTokenizer != firstTokenizer)
+		{
 			nextTokenizer.join();
 			nextTokenizer = nextTokenizer.getNextTokenizer();
 		}
 	}
-
+	
 }

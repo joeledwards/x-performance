@@ -14,8 +14,10 @@ public class NearestPointsValidator
 	public static void main (String[] args)
 	{
 		List<Point> points = new ArrayList<Point>();
+		
 		for (int i = 0; i < POINT_COUNT; i++)
 			points.add(newRandomPoint());
+		
 		Point origin = newRandomPoint();
 
 		System.out.println("Origin : " + origin.toString());
@@ -24,25 +26,28 @@ public class NearestPointsValidator
 		long start = System.currentTimeMillis();
 		List<Point> realClosestPoints = referenceMethod(origin, points, M_CLOSEST);
 		List<Double> realClosestDistances = new ArrayList<Double>();
-		for (Point point : realClosestPoints) {
+		
+		for (Point point : realClosestPoints)
 			realClosestDistances.add(distance(origin, point));
-		}
+		
 		long twixt = System.currentTimeMillis();
 
 		System.out.println();
 		System.out.println("referenceMethod(), took " + (twixt - start) + " ms:");
+		
 		for (Point point : realClosestPoints)
 			System.out.println("  " + point + " distance=" + distance(origin, point));
 
 		List<Point> closestPoints = findMClosest(origin, points, M_CLOSEST);
 		long end = System.currentTimeMillis();
 		List<Double> closestDistances = new ArrayList<Double>();
-		for (Point point : realClosestPoints) {
+		
+		for (Point point : realClosestPoints)
 			closestDistances.add(distance(origin, point));
-		}
 
 		System.out.println();
 		System.out.println("findMClosest(), took " + (end - twixt) + " ms:");
+		
 		for (Point point : closestPoints)
 			System.out.println("  " + point + " distance=" + distance(origin, point));
 
@@ -66,6 +71,7 @@ public class NearestPointsValidator
 
 
 		PriorityQueue<PointDistance> pointQueue = new PriorityQueue<PointDistance>();
+		
 		for (Point point : points)
 		{
 			PointDistance pointDistance = new PointDistance(point, distance(origin, point));
@@ -73,6 +79,7 @@ public class NearestPointsValidator
 		}
 
 		List<Point> closestPoints = new ArrayList<Point>();
+		
 		for (int i = 0; i < M; i++) {
 			closestPoints.add(pointQueue.remove().getPoint());
 		}
@@ -96,9 +103,11 @@ public class NearestPointsValidator
 	private static List<Point> referenceMethod(Point origin, List<Point> points, int M)
 	{
 		TreeSet<PointDistance> pointTree = new TreeSet<PointDistance>();
+		
 		for (Point point : points)
 		{
 			PointDistance pointDistance = new PointDistance(point, distance(origin, point));
+			
 			if (pointTree.size() < M)
 			{
 				pointTree.add(pointDistance);
@@ -111,6 +120,7 @@ public class NearestPointsValidator
 		}
 
 		List<Point> closestPoints = new ArrayList<Point>();
+		
 		for (PointDistance pointDistance : pointTree)
 			closestPoints.add(pointDistance.getPoint());
 
@@ -138,10 +148,13 @@ public class NearestPointsValidator
 		{
 			if (distance < other.distance)
 				return -1;
+			
 			if (distance > other.distance)
 				return 1;
+			
 			if (this != other)
 				return 1;
+			
 			return 0;
 		}
 

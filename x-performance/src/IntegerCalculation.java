@@ -1,5 +1,4 @@
-public class IntegerCalculation
-extends PerformanceTest
+public class IntegerCalculation extends PerformanceTest
 {
 	public void performTest()
 	{

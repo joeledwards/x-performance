@@ -1,7 +1,6 @@
 import java.util.concurrent.LinkedBlockingQueue;
 
-public abstract class ThreadTest<T>
-extends PerformanceTest
+public abstract class ThreadTest<T> extends PerformanceTest
 {
 	private LinkedBlockingQueue<QueueItem<T>> inQueue;
 	private LinkedBlockingQueue<QueueItem<T>> outQueue;
@@ -30,25 +29,32 @@ extends PerformanceTest
 	{
 		testThread.start();
 		super.test(iterations, updateFrequency);
-		try {
+		
+		try
+		{
 			inQueue.put(new QueueItem<T>(null));
-		} catch (InterruptedException ex) {
+		}
+		catch (InterruptedException ex)
+		{
 			System.err.format("Interrupted while halting thread: %s\n", ex.toString());
 		}
 	}
 	
 	public void performTest()
 	{
-		try {
+		try
+		{
 			T testItem = getTestItem();
-			//System.err.format("[%s]> Adding item to queue\n", getClass().getName());
+			// System.err.format("[%s]> Adding item to queue\n", getClass().getName());
 			inQueue.put(new QueueItem<T>(testItem));
-			//System.err.format("[%s]> Waiting on queue input\n", getClass().getName());
+			// System.err.format("[%s]> Waiting on queue input\n", getClass().getName());
 			outQueue.take();
-		} catch (InterruptedException ex) {
+		}
+		catch (InterruptedException ex)
+		{
 			System.err.format("Interrupted while communicating with thread: %s\n", ex.toString());
 		}
 	}
 	
-	public abstract T getTestItem(); 
+	public abstract T getTestItem();
 }

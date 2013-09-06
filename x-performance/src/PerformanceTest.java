@@ -5,7 +5,7 @@ import java.util.GregorianCalendar;
 
 
 public abstract class PerformanceTest
-implements Test
+implements ITest
 {
 	public static long UPDATES_PER_ITERATION = 4 * 1024 * 1024;
 	public static long UPDATES_PER_SPACE = 5;
@@ -29,8 +29,8 @@ implements Test
 	public void test(long iterations, long updateFrequency)
 	{	
 		start = GregorianCalendar.getInstance();
-		System.out.format("Test Name \"%s\"\n", testName);
-		System.out.format("Test began @ %s\n", PerformanceTest.prettyTimestamp(start));
+		System.out.format("ITest Name \"%s\"\n", testName);
+		System.out.format("ITest began @ %s\n", PerformanceTest.prettyTimestamp(start));
 
 		NumberFormat prettyNum = DecimalFormat.getIntegerInstance();
 		long nextInterval = updateFrequency;
@@ -61,9 +61,9 @@ implements Test
 		
 		end = GregorianCalendar.getInstance();
 		System.out.format("\n");
-		System.out.format("Test ended @: %s\n", PerformanceTest.prettyTimestamp(end));
+		System.out.format("ITest ended @: %s\n", PerformanceTest.prettyTimestamp(end));
 		long msDiff = end.getTimeInMillis() - start.getTimeInMillis();
-		System.out.format("Test duration was: %d.%d seconds\n", msDiff / 1000, msDiff % 1000);
+		System.out.format("ITest duration was: %d.%d seconds\n", msDiff / 1000, msDiff % 1000);
 	}
 	
 	public abstract void performTest();
