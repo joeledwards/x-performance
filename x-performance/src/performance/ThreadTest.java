@@ -1,3 +1,4 @@
+package performance;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public abstract class ThreadTest<T> extends PerformanceTest

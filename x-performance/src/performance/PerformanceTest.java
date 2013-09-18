@@ -1,11 +1,10 @@
+package performance;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-
-public abstract class PerformanceTest
-implements ITest
+public abstract class PerformanceTest implements ITest
 {
 	public static long UPDATES_PER_ITERATION = 4 * 1024 * 1024;
 	public static long UPDATES_PER_SPACE = 5;

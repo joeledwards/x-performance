@@ -1,3 +1,5 @@
+package performance;
+
 public class LongThreadTest extends ThreadTest<Long>
 {
 	@Override

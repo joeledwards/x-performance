@@ -1,3 +1,4 @@
+package performance;
 
 public interface ITest
 {

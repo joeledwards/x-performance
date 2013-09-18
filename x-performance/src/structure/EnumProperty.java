@@ -1,3 +1,4 @@
+package structure;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 

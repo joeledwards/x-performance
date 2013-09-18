@@ -1,5 +1,7 @@
+package interview;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
@@ -7,16 +9,18 @@ import java.util.TreeSet;
 
 public class NearestPointsValidator
 {
-	private static final int POINT_COUNT = 10000;
+	private static final int POINT_COUNT = 10000000;
 	private static final int M_CLOSEST = 25;
 	private static final Random rand = new Random(System.currentTimeMillis());
 
 	public static void main (String[] args)
 	{
-		List<Point> points = new ArrayList<Point>();
+		List<Point> points = new LinkedList<Point>();
 		
 		for (int i = 0; i < POINT_COUNT; i++)
 			points.add(newRandomPoint());
+		
+		System.out.println("Point list contains " + points.size() + " points");
 		
 		Point origin = newRandomPoint();
 
@@ -66,10 +70,8 @@ public class NearestPointsValidator
 	}
 
 	private static List<Point> findMClosest(Point origin, List<Point> points, int M)
-	{
-		// TODO: Custom Implementation
-
-
+	{ // TODO: Custom Implementation
+		
 		PriorityQueue<PointDistance> pointQueue = new PriorityQueue<PointDistance>();
 		
 		for (Point point : points)
@@ -77,18 +79,16 @@ public class NearestPointsValidator
 			PointDistance pointDistance = new PointDistance(point, distance(origin, point));
 			pointQueue.add(pointDistance);
 		}
-
+		
 		List<Point> closestPoints = new ArrayList<Point>();
 		
 		for (int i = 0; i < M; i++) {
 			closestPoints.add(pointQueue.remove().getPoint());
 		}
-
+		
 		return closestPoints;
-
-
-		// TODO: End Custom Implementation
-	}
+		
+	} // TODO: End Custom Implementation
 
 
 	private static double distance(Point a, Point b)
@@ -118,12 +118,12 @@ public class NearestPointsValidator
 				pointTree.add(pointDistance);
 			}
 		}
-
+		
 		List<Point> closestPoints = new ArrayList<Point>();
 		
 		for (PointDistance pointDistance : pointTree)
 			closestPoints.add(pointDistance.getPoint());
-
+		
 		return closestPoints;
 	}
 

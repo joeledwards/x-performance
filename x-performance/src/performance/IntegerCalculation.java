@@ -1,3 +1,5 @@
+package performance;
+
 public class IntegerCalculation extends PerformanceTest
 {
 	public void performTest()

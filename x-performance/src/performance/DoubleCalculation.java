@@ -1,3 +1,5 @@
+package performance;
+
 public class DoubleCalculation extends PerformanceTest
 {
 	public void performTest()

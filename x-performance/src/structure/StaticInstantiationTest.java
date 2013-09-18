@@ -1,3 +1,5 @@
+package structure;
+
 
 public class StaticInstantiationTest
 {

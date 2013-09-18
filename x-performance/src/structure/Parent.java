@@ -1,3 +1,4 @@
+package structure;
 
 public class Parent<T extends Parent<?>>
 {

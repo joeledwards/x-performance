@@ -1,3 +1,5 @@
+package structure;
+
 public class Bonding
 {
 	public static void main(String[] args)
