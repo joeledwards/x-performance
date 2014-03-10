@@ -20,6 +20,8 @@ public class Messages
 		GeneratorThread generator = new GeneratorThread(10000, messageQueue);
 		generator.start();
 		
+		Thread.sleep(2000);
+		
 		for (ConsumerThread thread : threads)
 		{
 			thread.start();
@@ -52,7 +54,7 @@ public class Messages
 		private long messageCount;
 		private long generatedCount = 0;
 		
-		public GeneratorThread(long messageCount, BlockingQueue messageQueue)
+		public GeneratorThread(long messageCount, BlockingQueue<String> messageQueue)
 		{
 			this.messageCount = messageCount;
 			this.messageQueue = messageQueue;
@@ -60,14 +62,42 @@ public class Messages
 		
 		public void run()
 		{
+			long start = System.nanoTime();
+			long lastReport = System.nanoTime();
+			
 			while (--messageCount >= 0)
 			{
 				try
 				{
-					System.out.println(messageCount + " messages left");
+					long workStart = System.nanoTime();
+					
 					messageQueue.put("message-" + generatedCount);
 					generatedCount++;
-					sleep(1L);
+					
+					long now = System.nanoTime();
+					
+					if (now - lastReport > 1000000000)
+					{
+						System.out.println("ConsumerThread has generated " + generatedCount + " messages."
+								+ " " + messageCount + " messages remaining.");
+						lastReport = now;
+					}
+					
+					long workEnd = System.nanoTime();
+					
+					long workDuration = workEnd - workStart;
+					int sleepNanos = Math.max(0, 1000000 - (int) workDuration);
+					
+					long sleepStart = System.nanoTime();
+					sleep(0, sleepNanos);
+					long sleepEnd = System.nanoTime();
+					
+					long sleepDuration = sleepEnd - sleepStart;
+					
+					if (sleepDuration > (sleepNanos + 200000))
+						System.out.println("Slept " + formatNanos(sleepDuration) + " (expected to sleep "
+								+ formatNanos(sleepNanos) + ")."
+								+ " Difference of " + formatNanos(sleepDuration - sleepNanos));
 				}
 				catch (InterruptedException e)
 				{
@@ -75,18 +105,27 @@ public class Messages
 				}
 			}
 			
-			System.out.println("ConsumerThread generated " + generatedCount + " messages");
+			long end = System.nanoTime();
+			
+			System.out.println("ConsumerThread generated " + generatedCount + " messages."
+					+ " There are " + messageQueue.size() + " left in the queue."
+					+ " Took " + formatNanos((end - start) / 1000000));
 		}
+	}
+	
+	public static String formatNanos(double nanos)
+	{
+		return String.format("%,.3f ms", nanos / 1000000.0);
 	}
 	
 	public static class ConsumerThread extends Thread
 	{
-		private long timerPerMessage;
+		private long maxSleepNanos;
 		private BlockingQueue<String> messageQueue;
 		
 		public ConsumerThread(long messagesPerSecond, BlockingQueue<String> messageQueue)
 		{
-			timerPerMessage = 1000 / messagesPerSecond;
+			long maxSleepNanos = 1000000000 / messagesPerSecond;
 			this.messageQueue = messageQueue;
 		}
 		
@@ -98,9 +137,13 @@ public class Messages
 			{
 				try
 				{
+					long workStart = System.nanoTime();
 					message = messageQueue.take();
-					System.out.println("ConsumerThread " + getName() + " got message " + message);
-					sleep(timerPerMessage);
+					long workEnd = System.nanoTime();
+					
+					long workDuration = workEnd - workStart;
+					int adjustedSleep = Math.max(0, (int) (maxSleepNanos - workDuration));
+					sleep(adjustedSleep / 1000000, adjustedSleep % 1000000);
 				}
 				catch (InterruptedException e)
 				{

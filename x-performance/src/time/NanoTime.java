@@ -4,14 +4,22 @@ public class NanoTime
 {
 	public static void main(String[] args)
 	{
-		long totalTime = 0;
-		long startTime = System.nanoTime();
+		long nanoTotal = 0;
+		long nanoStart = System.nanoTime();
 		
-		while (totalTime < 2000000000)
+		long msTotal = 0;
+		long msStart = System.currentTimeMillis();
+		
+		while (nanoTotal < 2000000000)
 		{
-			long time = System.nanoTime();
-			totalTime = time - startTime;
-			System.out.println("time = " + time);
+			long nanoTime = System.nanoTime();
+			long msTime = System.currentTimeMillis();
+			
+			nanoTotal = nanoTime - nanoStart;
+			msTotal = msTime - msStart;
+			
+			System.out.println("nano  time = " + nanoTime);
+			System.out.println("micro time = " + msTime);
 		}
 	}
 }
