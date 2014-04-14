@@ -18,8 +18,10 @@ public class NanoTime
 			nanoTotal = nanoTime - nanoStart;
 			msTotal = msTime - msStart;
 			
-			System.out.println("nano  time = " + nanoTime);
-			System.out.println("micro time = " + msTime);
+			System.out.println("nano   time = " + nanoTime);
+			System.out.println("millis time = " + msTime);
 		}
+		
+		System.out.println("total millis elapsed = " + msTotal);
 	}
 }
