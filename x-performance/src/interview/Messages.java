@@ -30,7 +30,7 @@ public class Messages
 		generator.join();
 		System.out.println("Generator is done.");
 		
-		for (ConsumerThread thread : threads)
+		for (int i = 0; i < threads.size(); i++)
 		{
 			try
 			{
@@ -38,7 +38,6 @@ public class Messages
 			}
 			catch (InterruptedException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -86,7 +85,7 @@ public class Messages
 					long workEnd = System.nanoTime();
 					
 					long workDuration = workEnd - workStart;
-					int sleepNanos = Math.max(0, 1000000 - (int) workDuration);
+					int sleepNanos = Math.max(0, Math.min(999999, 1000000 - (int) workDuration));
 					
 					long sleepStart = System.nanoTime();
 					sleep(0, sleepNanos);
@@ -125,7 +124,7 @@ public class Messages
 		
 		public ConsumerThread(long messagesPerSecond, BlockingQueue<String> messageQueue)
 		{
-			long maxSleepNanos = 1000000000 / messagesPerSecond;
+			maxSleepNanos = 1000000000 / messagesPerSecond;
 			this.messageQueue = messageQueue;
 		}
 		
@@ -147,7 +146,6 @@ public class Messages
 				}
 				catch (InterruptedException e)
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
