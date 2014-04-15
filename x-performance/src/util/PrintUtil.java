@@ -44,12 +44,34 @@ public class PrintUtil
 	
 	private static String getCaller()
 	{
+		String selfName = PrintUtil.class.getSimpleName();
+		boolean foundSelf = false;
 		StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+		StackTraceElement element = null;
 		
-		if (stack.length <= 5)
-			return "";
+		for (int i = 0; i < stack.length; i++)
+		{
+			String fullClass = stack[i].getClassName();
+			int nameOffset = fullClass.lastIndexOf('.') + 1;
+			String className = (nameOffset > 0) ? fullClass.substring(nameOffset, fullClass.length()) : "";
+			
+			if (foundSelf)
+			{
+				if (!selfName.equals(className))
+				{
+					element = stack[i];
+					break;
+				}
+			}
+			else
+			{
+				if (selfName.equals(className))
+					foundSelf = true;
+			}
+		}
 		
-		StackTraceElement element = stack[5];
+		if (element == null)
+			element = stack[stack.length - 1];
 		
 		return String.format("%s.%s", element.getClassName(), element.getMethodName());
 	}
