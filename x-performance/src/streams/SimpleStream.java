@@ -23,7 +23,7 @@ public class SimpleStream
 		System.out.println("Integers (prefixed): " + 
 				String.join(", ",
 						integers.stream()
-								.map(i -> "Item-" + String.valueOf(i))
+						.map(i -> "Item-" + String.valueOf(i))
 								.collect(Collectors.toSet())
 				)
 		);
