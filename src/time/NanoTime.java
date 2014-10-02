@@ -9,6 +9,7 @@ public class NanoTime
 		
 		long msTotal = 0;
 		long msStart = System.currentTimeMillis();
+		long iterations = 0;
 		
 		while (nanoTotal < 2000000000)
 		{
@@ -20,8 +21,10 @@ public class NanoTime
 			
 			System.out.println("nano   time = " + nanoTime);
 			System.out.println("millis time = " + msTime);
+			
+			iterations++;
 		}
 		
-		System.out.println("total millis elapsed = " + msTotal);
+		System.out.println("total millis elapsed = " + msTotal + " (" + iterations + " iterations)");
 	}
 }
