@@ -2,6 +2,7 @@ package structure;
 
 public class NullEnumInSwitch
 {
+	@SuppressWarnings("null")
 	public static void main(String[] args)
 	{
 		Option option = null;
